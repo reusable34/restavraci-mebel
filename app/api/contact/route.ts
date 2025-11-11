@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-    const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'noreply@example.com';
+    const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'provintage1404@gmail.com';
 
     const text = `Новая заявка с сайта Провинтаж\nИмя: ${name || '-'}\nТелефон: ${phone || '-'}\nСообщение: ${message || '-'}`;
 
