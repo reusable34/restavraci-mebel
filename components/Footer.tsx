@@ -20,8 +20,10 @@ export function Footer() {
           </div>
           <div>
             <ul className="mt-2 space-y-1">
-              <li><a href="tel:+79525564020" className="hover:opacity-80 transition-opacity text-2xl" style={{ color: '#faf7f2' }}>+7 952 556-40-20</a></li>
-              <li><a href="mailto:nparinov03@gmail.com" className="hover:opacity-80 transition-opacity text-2xl" style={{ color: '#faf7f2' }}>nparinov03@gmail.com</a></li>
+              <li><a href="tel:+79525564020" className="hover:opacity-80 transition-opacity" style={{ color: '#faf7f2' }}>+7 952 556-40-20</a></li>
+              <li><a href="tel:+79522289081" className="hover:opacity-80 transition-opacity" style={{ color: '#faf7f2' }}>+7 952 228-90-81</a></li>
+              <li><a href="mailto:provintage1404@gmail.com" className="hover:opacity-80 transition-opacity" style={{ color: '#faf7f2' }}>provintage1404@gmail.com</a></li>
+              <li><a href="https://t.me/provintagevrn" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer" style={{ color: '#faf7f2' }}>Telegram: @marina_provintage</a></li>
             </ul>
           </div>
         </div>

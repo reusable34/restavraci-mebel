@@ -15,9 +15,10 @@ export default function ContactsPage() {
               <div className="font-semibold" style={{ color: 'var(--heading)' }}>Связаться</div>
               <ul className="mt-3 space-y-2" style={{ color: 'color-mix(in oklab, var(--text) 85%, black 15%)' }}>
                 <li><a href="tel:+79525564020" className="hover:underline">Телефон: +7 952 556-40-20</a></li>
+                <li><a href="tel:+79522289081" className="hover:underline">Телефон: +7 952 228-90-81</a></li>
                 <li><a href="https://wa.me/79525564020" className="hover:underline" target="_blank" rel="noopener noreferrer">WhatsApp: перейти в чат</a></li>
-                <li><a href="https://t.me/+79525564020" className="hover:underline" target="_blank" rel="noopener noreferrer">Telegram: написать</a></li>
-                <li><a href="mailto:nparinov03@gmail.com" className="hover:underline">Email: nparinov03@gmail.com</a></li>
+                <li><a href="https://t.me/provintagevrn" className="hover:underline" target="_blank" rel="noopener noreferrer">Telegram: @marina_provintage</a></li>
+                <li><a href="mailto:provintage1404@gmail.com" className="hover:underline">Email: provintage1404@gmail.com</a></li>
               </ul>
             </div>
             <div className="card overflow-hidden">

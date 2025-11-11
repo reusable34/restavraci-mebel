@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     description: 'Профессиональная реставрация мебели в Воронеже. Реставрация старинной мебели, ремонт, перетяжка, покраска, редизайн.',
     url: 'https://provintagevrn.ru',
     telephone: '+79525564020',
-    email: 'nparinov03@gmail.com',
+    email: 'provintage1404@gmail.com',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Минская 67/1, цокольный этаж',
