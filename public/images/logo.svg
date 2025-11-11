@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+  <defs>
+    <!-- Обновленные градиенты в соответствии с цветовой схемой сайта -->
+    <linearGradient id="creamGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#faf7f2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0e8dc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="burgundyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b3a4a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a04555;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="oliveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#203b1f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d4f2a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Кресло в новой цветовой схеме -->
+  <g transform="translate(15, 15)">
+    <!-- Основание кресла (белое с taupe обводкой) -->
+    <rect x="0" y="35" width="50" height="8" rx="4" fill="#ffffff" stroke="#9b8b7e" stroke-width="1"/>
+    
+    <!-- Спинка кресла (белая с taupe обводкой) -->
+    <rect x="0" y="8" width="8" height="35" rx="4" fill="#ffffff" stroke="#9b8b7e" stroke-width="1"/>
+    
+    <!-- Сиденье (burgundy с вертикальными линиями) -->
+    <rect x="8" y="30" width="42" height="8" rx="4" fill="url(#burgundyGradient)"/>
+    <line x1="12" y1="32" x2="12" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="16" y1="32" x2="16" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="20" y1="32" x2="20" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="24" y1="32" x2="24" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="28" y1="32" x2="28" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="32" y1="32" x2="32" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="36" y1="32" x2="36" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="40" y1="32" x2="40" y2="36" stroke="#ffffff" stroke-width="1"/>
+    <line x1="44" y1="32" x2="44" y2="36" stroke="#ffffff" stroke-width="1"/>
+    
+    <!-- Подлокотники (белые с taupe обводкой) -->
+    <rect x="8" y="12" width="6" height="20" rx="3" fill="#ffffff" stroke="#9b8b7e" stroke-width="1"/>
+    <rect x="44" y="12" width="6" height="20" rx="3" fill="#ffffff" stroke="#9b8b7e" stroke-width="1"/>
+    
+    <!-- Ножки кресла (olive цвет) -->
+    <rect x="5" y="43" width="2" height="8" fill="#203b1f"/>
+    <rect x="15" y="43" width="2" height="8" fill="#203b1f"/>
+    <rect x="25" y="43" width="2" height="8" fill="#203b1f"/>
+    <rect x="35" y="43" width="2" height="8" fill="#203b1f"/>
+    <rect x="45" y="43" width="2" height="8" fill="#203b1f"/>
+  </g>
+</svg>
+
+
+
+
+

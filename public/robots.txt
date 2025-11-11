@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://provintagevrn.ru/sitemap.xml
+
+# Блокируем служебные страницы
+Disallow: /studio/
+Disallow: /api/
+
+# Разрешаем индексацию основных страниц
+Allow: /
+Allow: /services
+Allow: /portfolio
+Allow: /contacts
+

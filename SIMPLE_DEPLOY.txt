@@ -1,0 +1,19 @@
+ВЫПОЛНИТЕ ЭТУ ОДНУ КОМАНДУ НА СЕРВЕРЕ (root@kolas:~#):
+
+bash <(curl -s http://192.168.0.112:8080/auto-deploy.sh)
+
+Или если curl не работает:
+
+wget -qO- http://192.168.0.112:8080/auto-deploy.sh | bash
+
+Скрипт автоматически:
+- Установит Node.js
+- Скачает проект
+- Установит зависимости
+- Соберет приложение
+- Настроит и запустит сервис
+
+После выполнения настройте Telegram токены:
+nano /opt/restavraci/.env
+systemctl restart restavraci.service
+

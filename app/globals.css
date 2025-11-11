@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Completely redesigned with vibrant ashore hues - more color variety */
+  /* Фоны - светлые кремовые тона */
+  --bg: #faf7f2; /* light cream - основной фон */
+  --bg-secondary: #f0e8dc; /* warm cream для карточек */
+  --bg-accent: #e8ddd4; /* dusty pink-cream для акцентных секций */
+
+  /* Текст */
+  --heading: #3d3229; /* rich dark brown для заголовков */
+  --text: #5c4f42; /* warm brown для текста */
+  --muted: #8a7d6f; /* muted taupe */
+
+  /* Акцентные цвета - яркие и разнообразные */
+  --burgundy: #8b3a4a; /* deep burgundy - главный акцент */
+  --burgundy-hover: #a04555; /* lighter burgundy */
+  --burgundy-light: #c4a5ad; /* soft burgundy для фонов */
+
+  --olive: #203b1f; /* dark green */
+  --olive-hover: #2d4f2a; /* lighter dark green */
+  --olive-light: #4a5c48; /* soft dark green для фонов */
+
+  --mauve: #b8a5a5; /* dusty mauve/pink */
+  --mauve-light: #d4c7c7; /* light mauve */
+
+  --taupe: #9b8b7e; /* warm taupe */
+  --taupe-dark: #6d5f54; /* dark taupe */
+
+  /* Линии и границы */
+  --hairline: #d4c7bb; /* soft taupe для линий */
+  --hairline-dark: #b5a89a; /* darker для контраста */
+
+  --btn-fg: #faf7f2; /* светлый текст на кнопках */
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Заголовки - EB Garamond */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: var(--font-heading), serif;
+}
+
+/* Updated victorian pattern with colorful overlay */
+.victorian-bg {
+  background-image: radial-gradient(
+      100% 60% at 50% 0%,
+      rgba(139, 58, 74, 0.12) 0%,
+      rgba(184, 165, 165, 0.05) 40%,
+      transparent 90%
+    ), url("/images/victorian-pattern.svg");
+  background-size: auto, 320px 320px;
+  background-position: center top, center top;
+  background-repeat: no-repeat, repeat;
+}
+
+.prose p {
+  color: var(--text);
+}
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--heading);
+}
+
+/* Burgundy primary button with better contrast */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-semibold shadow-md transition;
+  background-color: var(--burgundy);
+  color: var(--btn-fg);
+}
+.btn-primary:hover {
+  background-color: var(--burgundy-hover);
+  color: var(--btn-fg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 58, 74, 0.3);
+}
+.btn-primary:focus {
+  @apply outline-none ring-2;
+  --tw-ring-color: var(--burgundy-light);
+}
+
+/* Olive secondary button for variety */
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-semibold transition shadow-sm;
+  border: 2px solid var(--olive);
+  color: var(--olive);
+  background-color: transparent;
+}
+.btn-secondary:hover {
+  background-color: var(--olive);
+  color: var(--btn-fg);
+  transform: translateY(-1px);
+}
+
+.section {
+  @apply py-12 md:py-20;
+}
+
+/* Burgundy accent for section titles */
+.section-title {
+  @apply text-2xl md:text-3xl font-semibold tracking-tight;
+  color: var(--heading);
+  border-left: 4px solid var(--burgundy);
+  padding-left: 1rem;
+  font-family: var(--font-heading), serif;
+}
+
+/* Cards with subtle mauve tints */
+.card {
+  @apply rounded-lg backdrop-blur-sm shadow-sm transition-all;
+  border: 1px solid var(--hairline);
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--bg-secondary) 90%, var(--mauve) 10%) 0%,
+    var(--bg-secondary) 100%
+  );
+}
+.card:hover {
+  border-color: var(--hairline-dark);
+  box-shadow: 0 4px 16px rgba(32, 59, 31, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Burgundy accent links */
+.link-accent {
+  color: var(--burgundy);
+  font-weight: 500;
+}
+.link-accent:hover {
+  color: var(--burgundy-hover);
+  text-decoration: underline;
+}
+
+/* Inputs with olive focus state */
+.input {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--hairline);
+  color: var(--heading);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  transition: all 0.2s;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--olive);
+  background-color: var(--bg);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--olive) 20%, transparent);
+}
+
+/* Vibrant sunburst with all palette colors */
+.sunburst-bg {
+  background: radial-gradient(
+      ellipse at 20% 20%,
+      rgba(139, 58, 74, 0.35) 0%,
+      rgba(184, 165, 165, 0.25) 20%,
+      rgba(155, 139, 126, 0.2) 45%,
+      transparent 85%
+    ), linear-gradient(135deg, var(--bg) 0%, var(--bg-accent) 100%);
+}
+
+/* Header with mauve gradient */
+.header-bg {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--bg) 85%, var(--mauve) 15%) 0%,
+    var(--bg) 50%,
+    var(--bg) 100%
+  );
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Hero with rich burgundy gradient */
+.hero-bg {
+  background: radial-gradient(
+      120% 80% at 50% -10%,
+      rgba(139, 58, 74, 0.4) 0%,
+      rgba(184, 165, 165, 0.35) 20%,
+      rgba(155, 139, 126, 0.2) 50%,
+      transparent 90%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--bg) 90%, var(--mauve-light) 10%) 0%,
+      var(--bg) 50%,
+      var(--bg-secondary) 100%
+    );
+}
+
+/* New utility classes for colorful accents */
+.accent-burgundy {
+  color: var(--burgundy);
+}
+.accent-olive {
+  color: var(--olive);
+}
+.accent-mauve {
+  color: var(--mauve);
+}
+
+.bg-burgundy-light {
+  background-color: var(--burgundy-light);
+}
+.bg-olive-light {
+  background-color: var(--olive-light);
+}
+.bg-mauve-light {
+  background-color: var(--mauve-light);
+}
+
+/* Decorative border accents */
+.border-accent-top {
+  border-top: 3px solid var(--burgundy);
+}
+.border-accent-left {
+  border-left: 3px solid var(--olive);
+}
