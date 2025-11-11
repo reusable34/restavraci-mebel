@@ -18,19 +18,44 @@ export async function POST(req: NextRequest) {
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
     const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'provintage1404@gmail.com';
 
-    const text = `Новая заявка с сайта Провинтаж\nИмя: ${name || '-'}\nТелефон: ${phone || '-'}\nСообщение: ${message || '-'}`;
+    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Телефон: ${phone || '-'}\n💬 Сообщение: ${message || '-'}\n\n🌐 Сайт: https://provintagevrn.ru`;
 
     if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+      // Поддержка нескольких chat_id (через запятую)
+      const chatIds = TELEGRAM_CHAT_ID.split(',').map(id => id.trim()).filter(Boolean);
       const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-      const tgRes = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text })
+      
+      // Отправляем сообщение во все указанные чаты
+      const sendPromises = chatIds.map(async (chatId) => {
+        const tgRes = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            chat_id: chatId, 
+            text,
+            parse_mode: 'HTML' // Для форматирования (опционально)
+          })
+        });
+        if (!tgRes.ok) {
+          const err = await tgRes.text();
+          console.error(`Failed to send to chat ${chatId}:`, err);
+          return { success: false, chatId, error: err };
+        }
+        return { success: true, chatId };
       });
-      if (!tgRes.ok) {
-        const err = await tgRes.text();
-        return NextResponse.json({ ok: false, error: 'TELEGRAM_ERROR', detail: err }, { status: 500 });
+
+      const results = await Promise.all(sendPromises);
+      const allFailed = results.every(r => !r.success);
+      
+      if (allFailed) {
+        return NextResponse.json({ 
+          ok: false, 
+          error: 'TELEGRAM_ERROR', 
+          detail: results.map(r => r.error).join('; ') 
+        }, { status: 500 });
       }
+      
+      // Если хотя бы одно сообщение отправилось - считаем успехом
       return NextResponse.json({ ok: true });
     }
 
