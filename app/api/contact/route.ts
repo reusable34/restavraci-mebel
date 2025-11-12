@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
     const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'provintage1404@gmail.com';
 
-    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Телефон: ${phone || '-'}\n💬 Сообщение: ${message || '-'}\n\n🌐 Сайт: https://provintagevrn.ru`;
+    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Телефон: ${phone || '-'}\n💬 Сообщение: ${message || '-'}`;
 
     if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
       // Поддержка нескольких chat_id (через запятую)
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({ 
             chat_id: chatId, 
             text,
-            parse_mode: 'HTML' // Для форматирования (опционально)
+            disable_web_page_preview: true // Отключаем превью ссылок
           })
         });
         if (!tgRes.ok) {
