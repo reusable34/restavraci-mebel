@@ -18,7 +18,9 @@ export async function POST(req: NextRequest) {
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
     const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'provintage1404@gmail.com';
 
-    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Телефон: ${phone || '-'}\n💬 Сообщение: ${message || '-'}`;
+    // Убираем +7 из номера телефона если есть
+    const cleanPhone = phone ? phone.replace(/^\+7\s?/, '').replace(/^7\s?/, '') : '-';
+    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Контактные данные: ${cleanPhone}\n💬 Сообщение: ${message || '-'}`;
 
     if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
       // Поддержка нескольких chat_id (через запятую)
