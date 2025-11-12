@@ -49,8 +49,8 @@ export function ContactForm() {
           <input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Ваше имя" className="mt-1 w-full input" />
         </div>
         <div>
-          <label className="block text-sm" style={{ color: 'color-mix(in oklab, var(--text) 80%, black 20%)' }}>Телефон</label>
-          <input value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="+7" className="mt-1 w-full input" />
+          <label className="block text-sm" style={{ color: 'color-mix(in oklab, var(--text) 80%, black 20%)' }}>Контактные данные</label>
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Номер телефона" className="mt-1 w-full input" />
         </div>
       </div>
       <div>
