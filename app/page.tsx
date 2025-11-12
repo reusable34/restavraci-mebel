@@ -104,21 +104,21 @@ export default function HomePage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <Container>
           <div className="p-4 md:p-8">
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight mb-4 md:mb-6 hidden md:block" style={{ color: 'var(--heading)' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight mb-4 md:mb-6" style={{ color: 'var(--heading)' }}>
               Реставрация мебели в Воронеже — получите бесплатную консультацию и смету
             </h2>
-            <div className="mb-6 md:mb-8 prose prose-lg max-w-none hidden md:block" style={{ color: 'color-mix(in oklab, var(--text) 90%, black 10%)' }}>
-              <p className="text-base md:text-lg leading-relaxed mb-4">
+            <div className="mb-6 md:mb-8 prose prose-lg max-w-none" style={{ color: 'color-mix(in oklab, var(--text) 90%, black 10%)' }}>
+              <p className="text-sm md:text-base lg:text-lg leading-relaxed mb-4">
                 Мастерская <strong>Провинтаж</strong> специализируется на профессиональной <strong>реставрации мебели в Воронеже</strong>. 
                 Мы выполняем реставрацию старинной и антикварной мебели, ремонт деревянной мебели, перетяжку мягкой мебели, 
                 покраску и редизайн. Наша мастерская работает в Воронеже и Воронежской области уже более 10 лет.
               </p>
-              <p className="text-base md:text-lg leading-relaxed mb-4">
+              <p className="text-sm md:text-base lg:text-lg leading-relaxed mb-4 hidden md:block">
                 Мы реставрируем стулья, кресла, столы, шкафы, комоды, буфеты и другую мебель. 
                 Каждая работа выполняется вручную с использованием качественных материалов и проверенных технологий. 
                 Мы сохраняем историческую ценность антикварной мебели и придаем новую жизнь винтажным предметам интерьера.
               </p>
-              <p className="text-base md:text-lg leading-relaxed">
+              <p className="text-sm md:text-base lg:text-lg leading-relaxed">
                 Если вам нужна <strong>реставрация мебели в Воронеже</strong>, свяжитесь с нами для бесплатной консультации. 
                 Мы оценим состояние вашей мебели и предоставим подробную смету работ.
               </p>
