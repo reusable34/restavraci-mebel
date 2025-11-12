@@ -50,7 +50,7 @@ export function ContactForm() {
         </div>
         <div>
           <label className="block text-sm" style={{ color: 'color-mix(in oklab, var(--text) 80%, black 20%)' }}>Контактные данные</label>
-          <input value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Номер телефона" className="mt-1 w-full input" />
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="" className="mt-1 w-full input" />
         </div>
       </div>
       <div>
