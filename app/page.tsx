@@ -104,7 +104,7 @@ export default function HomePage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <Container>
           <div className="p-4 md:p-8">
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight mb-4 md:mb-6" style={{ color: 'var(--heading)' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight mb-4 md:mb-6 hidden md:block" style={{ color: 'var(--heading)' }}>
               Реставрация мебели в Воронеже — получите бесплатную консультацию и смету
             </h2>
             <div className="mb-6 md:mb-8 prose prose-lg max-w-none hidden md:block" style={{ color: 'color-mix(in oklab, var(--text) 90%, black 10%)' }}>
@@ -123,11 +123,8 @@ export default function HomePage() {
                 Мы оценим состояние вашей мебели и предоставим подробную смету работ.
               </p>
             </div>
-            <div className="mb-4 md:hidden text-sm leading-relaxed" style={{ color: 'color-mix(in oklab, var(--text) 90%, black 10%)' }}>
-              Мы оценим состояние вашей мебели и предоставим подробную смету работ.
-            </div>
-            <div className="card p-4 md:p-6">
-              <div className="mb-4 md:hidden text-lg font-semibold" style={{ color: 'var(--heading)' }}>Оставьте заявку</div>
+            <div className="card p-6">
+              <div className="mb-4 text-lg font-semibold" style={{ color: 'var(--heading)' }}>Оставьте заявку</div>
               <ContactForm />
               <div className="mt-4 text-xs" style={{ color: 'color-mix(in oklab, var(--text) 60%, black 40%)' }}>Нажимая кнопку, вы даете согласие на обработку персональных данных</div>
             </div>
