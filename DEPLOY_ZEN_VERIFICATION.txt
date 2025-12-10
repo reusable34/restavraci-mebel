@@ -1,0 +1,17 @@
+КОМАНДА ДЛЯ СОЗДАНИЯ ФАЙЛА ПОДТВЕРЖДЕНИЯ ДЗЕН НА СЕРВЕРЕ:
+
+cd /opt/restavraci && \
+mkdir -p public && \
+cat > public/zen_Cltc1WJKkQISPD0d4FNUtlgs5R9NReqOQYDVEscr7KhkdrTVNykcYLE9kqM316V6.html << 'EOF'
+<meta name="zen-verification" content="Cltc1WJKkQISPD0d4FNUtIgs5R9NReq0QYDVEscr7KhkdrTVNykcYLE9kqM3I6V6" />
+EOF
+echo "✅ Файл создан" && \
+ls -la public/zen_Cltc1WJKkQISPD0d4FNUtlgs5R9NReqOQYDVEscr7KhkdrTVNykcYLE9kqM316V6.html
+
+После создания файла проверьте доступность:
+curl -I https://provintagevrn.ru/zen_Cltc1WJKkQISPD0d4FNUtlgs5R9NReqOQYDVEscr7KhkdrTVNykcYLE9kqM316V6.html
+
+Должен вернуться HTTP 200.
+
+
+

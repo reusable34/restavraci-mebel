@@ -1,76 +1,149 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-type Body = {
-  name?: string;
-  phone?: string;
-  message?: string;
-  website?: string;
-};
+import { validateFormData, FormData } from '@/lib/validation';
+import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
+import { verifyRecaptcha } from '@/lib/recaptcha';
+import { formatTelegramMessage, sendTelegramMessage } from '@/lib/telegram';
 
 export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+  let clientIP = 'unknown';
+  
   try {
-    const { name, phone, message, website }: Body = await req.json();
-    if (website && website.trim().length > 0) {
+    // Получаем IP адрес клиента
+    clientIP = getClientIP(req);
+    
+    // Проверка rate limiting
+    const rateLimit = checkRateLimit(clientIP, 3, 60 * 1000); // 3 запроса в минуту
+    if (!rateLimit.allowed) {
+      console.warn(`[RATE_LIMIT] IP: ${clientIP}, Reset at: ${new Date(rateLimit.resetTime).toISOString()}`);
+      return NextResponse.json(
+        { ok: false, message: 'Слишком много запросов. Попробуйте позже.' },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '3',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString()
+          }
+        }
+      );
+    }
+
+    // Парсинг тела запроса
+    let body: FormData;
+    try {
+      body = await req.json();
+    } catch (e) {
+      console.error('[PARSE_ERROR]', e);
+      return NextResponse.json(
+        { ok: false, message: 'Неверный формат данных.' },
+        { status: 400 }
+      );
+    }
+
+    // Проверка honeypot поля
+    if (body.website && body.website.trim().length > 0) {
+      console.warn(`[HONEYPOT_TRIGGERED] IP: ${clientIP}, Website: ${body.website}`);
+      // Возвращаем успех, чтобы не показывать боту, что его обнаружили
       return NextResponse.json({ ok: true });
     }
 
+    // Валидация данных
+    const validation = validateFormData(body);
+    if (!validation.valid) {
+      console.warn(`[VALIDATION_ERROR] IP: ${clientIP}, Errors: ${validation.errors.join(', ')}`);
+      return NextResponse.json(
+        { ok: false, message: validation.errors[0] || 'Ошибка валидации данных.' },
+        { status: 400 }
+      );
+    }
+
+    // Проверка reCAPTCHA (если токен предоставлен)
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (body.recaptchaToken && recaptchaSecret) {
+      const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, recaptchaSecret);
+      if (!recaptchaResult.success) {
+        console.warn(`[RECAPTCHA_FAILED] IP: ${clientIP}, Score: ${recaptchaResult.score}, Error: ${recaptchaResult.error}`);
+        return NextResponse.json(
+          { ok: false, message: 'Ошибка проверки безопасности. Попробуйте позже.' },
+          { status: 400 }
+        );
+      }
+    } else if (!body.recaptchaToken && recaptchaSecret) {
+      // Если reCAPTCHA настроена, но токен не предоставлен - это подозрительно
+      console.warn(`[RECAPTCHA_MISSING] IP: ${clientIP}`);
+      // Можно либо блокировать, либо разрешать (зависит от требований)
+      // Для начала разрешаем, но логируем
+    }
+
+    // Получение конфигурации Telegram
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-    const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'provintage1404@gmail.com';
 
-    // Убираем +7 из номера телефона если есть
-    const cleanPhone = phone ? phone.replace(/^\+7\s?/, '').replace(/^7\s?/, '') : '-';
-    const text = `🎨 Новая заявка с сайта Провинтаж\n\n👤 Имя: ${name || '-'}\n📞 Контактные данные: ${cleanPhone}\n💬 Сообщение: ${message || '-'}`;
-
-    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-      // Поддержка нескольких chat_id (через запятую)
-      const chatIds = TELEGRAM_CHAT_ID.split(',').map(id => id.trim()).filter(Boolean);
-      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-      
-      // Отправляем сообщение во все указанные чаты
-      const sendPromises = chatIds.map(async (chatId) => {
-        const tgRes = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            chat_id: chatId, 
-            text,
-            disable_web_page_preview: true // Отключаем превью ссылок
-          })
-        });
-        if (!tgRes.ok) {
-          const err = await tgRes.text();
-          console.error(`Failed to send to chat ${chatId}:`, err);
-          return { success: false, chatId, error: err };
-        }
-        return { success: true, chatId };
-      });
-
-      const results = await Promise.all(sendPromises);
-      const allFailed = results.every(r => !r.success);
-      
-      if (allFailed) {
-        return NextResponse.json({ 
-          ok: false, 
-          error: 'TELEGRAM_ERROR', 
-          detail: results.map(r => r.error).join('; ') 
-        }, { status: 500 });
-      }
-      
-      // Если хотя бы одно сообщение отправилось - считаем успехом
-      return NextResponse.json({ ok: true });
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+      console.error('[TELEGRAM_CONFIG_MISSING]');
+      return NextResponse.json(
+        { ok: false, message: 'Сервис временно недоступен. Попробуйте позже.' },
+        { status: 500 }
+      );
     }
 
-    const subject = encodeURIComponent('Заявка на реставрацию — Провинтаж');
-    const body = encodeURIComponent(`Имя: ${name || '-'}\nТелефон: ${phone || '-'}\nСообщение: ${message || '-'}`);
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    return NextResponse.json({ ok: false, mailto });
+    // Форматирование и отправка сообщения в Telegram
+    const telegramMessage = formatTelegramMessage({
+      name: body.name,
+      contacts: body.contacts,
+      telegram: body.telegram,
+      message: body.message
+    });
+
+    const telegramResult = await sendTelegramMessage(
+      TELEGRAM_BOT_TOKEN,
+      TELEGRAM_CHAT_ID,
+      telegramMessage
+    );
+
+    if (!telegramResult.success) {
+      console.error(`[TELEGRAM_ERROR] IP: ${clientIP}, Errors: ${telegramResult.errors?.join('; ')}`);
+      return NextResponse.json(
+        { ok: false, message: 'Ошибка отправки сообщения. Попробуйте позже.' },
+        { status: 500 }
+      );
+    }
+
+    // Логирование успешной отправки
+    const duration = Date.now() - startTime;
+    console.log(`[SUCCESS] IP: ${clientIP}, Duration: ${duration}ms`);
+
+    return NextResponse.json(
+      { ok: true },
+      {
+        headers: {
+          'X-RateLimit-Limit': '3',
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetTime.toString()
+        }
+      }
+    );
+
   } catch (e: any) {
-    return NextResponse.json({ ok: false, error: 'SERVER_ERROR' }, { status: 500 });
+    console.error(`[SERVER_ERROR] IP: ${clientIP}`, e);
+    return NextResponse.json(
+      { ok: false, message: 'Внутренняя ошибка сервера. Попробуйте позже.' },
+      { status: 500 }
+    );
   }
 }
 
-
-
+// Настройка CORS
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
 
 

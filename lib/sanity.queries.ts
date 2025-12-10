@@ -18,3 +18,6 @@ export const portfolioQuery = groq`*[_type == "portfolioImage"]|order(order asc)
 
 
 
+
+
+

@@ -1,0 +1,6 @@
+КОМАНДА ДЛЯ ВЫПОЛНЕНИЯ НА СЕРВЕРЕ (root@kolas):
+
+cd /opt/restavraci && npm ci --production=false && npm run build && systemctl restart restavraci.service && sleep 3 && systemctl status restavraci.service --no-pager | head -10
+
+
+
